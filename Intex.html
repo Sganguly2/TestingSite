@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* A very light green background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 48rem;
+            width: 100%;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1rem;
+            height: 1rem;
+            background: #10B981; /* Tailwind's emerald-500 */
+            cursor: pointer;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .input-group input[type="range"]::-moz-range-thumb {
+            width: 1rem;
+            height: 1rem;
+            background: #10B981;
+            cursor: pointer;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .input-group input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-emerald-50">
+    <div class="container p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
+        <div class="flex items-center space-x-2 text-emerald-600 mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.306a11.95 11.95 0 014.318-6.26m-10.875 1.94l10.875-1.94m-11.196 1.94l9.75-5.823 2.13-1.065a48.066 48.066 0 01-1.277 5.765l-2.023.23c-.767.092-1.49.255-2.223.491m-10.875 1.94l2.25-.75L15 15.75m-6.75 6.75l-2.25-7.5" />
+            </svg>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-emerald-800">Family Carbon Footprint</h1>
+        </div>
+
+        <p class="text-gray-600 mb-6">
+            Enter your family's daily travel details to estimate your combined carbon footprint.
+        </p>
+
+        <form id="calculatorForm" class="space-y-6">
+            <!-- Number of Family Members -->
+            <div class="input-group">
+                <label for="familyMembers" class="block text-sm font-medium text-gray-700 mb-2">Number of Family Members (1-10)</label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="familyMembersSlider" min="1" max="10" value="1" class="flex-1 h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="number" id="familyMembersInput" min="1" max="10" value="1" class="w-20 p-2 text-center border border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                </div>
+            </div>
+
+            <!-- Dynamic Inputs for Each Family Member -->
+            <div id="familyMembersContainer" class="space-y-8 mt-6">
+                <!-- Inputs will be dynamically generated here -->
+            </div>
+
+            <button type="submit" class="w-full py-3 px-6 bg-emerald-600 text-white font-bold rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition duration-300">
+                Calculate Total Carbon Footprint
+            </button>
+        </form>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-8 p-6 bg-emerald-50 rounded-lg shadow-inner border border-emerald-200 text-center hidden">
+            <h3 class="text-xl font-semibold text-emerald-800 mb-2">Your Estimated Total Carbon Footprint:</h3>
+            <p id="carbonOutput" class="text-4xl font-extrabold text-emerald-600 mb-2"></p>
+            <p id="messageOutput" class="text-gray-600 text-sm italic"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mapping input elements
+            const form = document.getElementById('calculatorForm');
+            const familyMembersSlider = document.getElementById('familyMembersSlider');
+            const familyMembersInput = document.getElementById('familyMembersInput');
+            const familyMembersContainer = document.getElementById('familyMembersContainer');
+            const resultsDiv = document.getElementById('results');
+            const carbonOutput = document.getElementById('carbonOutput');
+            const messageOutput = document.getElementById('messageOutput');
+
+            // Simplified emission factors (g CO2e per km) based on UK government data (DEFRA 2023)
+            const emissionFactors = {
+                'car': 170, // Average UK petrol car
+                'motorcycle': 113.8, // Average UK motorcycle
+                'bus': 89.2,  // UK bus (per passenger-km)
+                'train': 35.8, // UK national rail (per passenger-km)
+                'walking': 0,
+                'bicycle': 0
+            };
+
+            // Function to generate dynamic input fields
+            const generateFamilyInputs = (count) => {
+                familyMembersContainer.innerHTML = ''; // Clear previous inputs
+                for (let i = 1; i <= count; i++) {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.classList.add('bg-gray-50', 'p-6', 'rounded-lg', 'border', 'border-gray-200', 'space-y-4');
+                    memberDiv.innerHTML = `
+                        <h4 class="font-bold text-gray-800">Family Member ${i}</h4>
+                        <div class="input-group">
+                            <label for="transportMethod_${i}" class="block text-sm font-medium text-gray-700 mb-2">Method of Transport</label>
+                            <select id="transportMethod_${i}" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500 focus:border-emerald-500 transition duration-200">
+                                <option value="car">Car</option>
+                                <option value="motorcycle">Motorcycle</option>
+                                <option value="bus">Bus</option>
+                                <option value="train">Train</option>
+                                <option value="walking">Walking</option>
+                                <option value="bicycle">Bicycle</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="distance_${i}" class="block text-sm font-medium text-gray-700 mb-2">Distance Covered (km)</label>
+                            <div class="flex items-center space-x-4">
+                                <input type="range" id="distanceSlider_${i}" min="0" max="100" value="10" class="flex-1 h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer">
+                                <input type="number" id="distanceInput_${i}" min="0" max="100" value="10" class="w-20 p-2 text-center border border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                            </div>
+                        </div>
+                    `;
+                    familyMembersContainer.appendChild(memberDiv);
+
+                    // Add event listeners for the new slider and number input
+                    const distanceSlider = document.getElementById(`distanceSlider_${i}`);
+                    const distanceInput = document.getElementById(`distanceInput_${i}`);
+                    distanceSlider.oninput = () => {
+                        distanceInput.value = distanceSlider.value;
+                    };
+                    distanceInput.oninput = () => {
+                        distanceSlider.value = distanceInput.value;
+                    };
+                }
+            };
+
+            // Initial generation of one member's inputs
+            generateFamilyInputs(1);
+
+            // Synchronize family member slider and number input
+            familyMembersSlider.oninput = () => {
+                familyMembersInput.value = familyMembersSlider.value;
+                generateFamilyInputs(parseInt(familyMembersSlider.value, 10));
+            };
+            familyMembersInput.oninput = () => {
+                if (familyMembersInput.value < 1) familyMembersInput.value = 1;
+                if (familyMembersInput.value > 10) familyMembersInput.value = 10;
+                familyMembersSlider.value = familyMembersInput.value;
+                generateFamilyInputs(parseInt(familyMembersInput.value, 10));
+            };
+
+            // Hardcoded recommendations based on total emissions and transport methods
+            const getRecommendation = (totalEmissions, usedMethods) => {
+                const usesMotorised = usedMethods.has('car') || usedMethods.has('motorcycle');
+                const usesSustainable = usedMethods.has('walking') || usedMethods.has('bicycle') || usedMethods.has('bus') || usedMethods.has('train');
+
+                if (totalEmissions === 0) {
+                    return "Fantastic! Your family has a zero carbon footprint for today. Keep up the great sustainable work by choosing to walk and cycle!";
+                }
+
+                if (totalEmissions < 500) {
+                    if (usesMotorised) {
+                        return "Your carbon footprint is low. To make it even lower, consider swapping some shorter car journeys for walks or bike rides. Every little bit helps!";
+                    }
+                    return "A great result! You've kept your footprint very low by choosing sustainable transport. You're a green hero!";
+                }
+
+                if (totalEmissions < 2000) {
+                    if (usesMotorised) {
+                        return "Your footprint is moderate. Think about using public transport for your daily commute to significantly reduce your emissions. It's a great way to save money and the planet!";
+                    }
+                    return "You're doing well! Choosing public transport is a brilliant step. Try encouraging friends and family to join you on your sustainable journeys.";
+                }
+
+                if (totalEmissions < 5000) {
+                    return "Your carbon footprint is on the higher side. Small changes can make a big difference. Can you switch one or two of your car journeys to public transport per week? Or try carpooling!";
+                }
+
+                return "Your carbon footprint is quite high. Transport is a major source of emissions, but it's also where you can make a huge impact. Consider a long-term plan to switch to public transport or an electric vehicle. You have the power to make a change!";
+            };
+
+
+            // Handle form submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                let totalEmissions = 0;
+                const usedMethods = new Set();
+                const numberOfMembers = parseInt(familyMembersInput.value, 10);
+
+                for (let i = 1; i <= numberOfMembers; i++) {
+                    const selectedMethod = document.getElementById(`transportMethod_${i}`).value;
+                    const distance = parseFloat(document.getElementById(`distanceInput_${i}`).value);
+                    usedMethods.add(selectedMethod);
+                    const emissions = distance * emissionFactors[selectedMethod];
+                    totalEmissions += emissions;
+                }
+
+                const emissionsKg = (totalEmissions / 1000).toFixed(2); // Convert to kg and round to 2 decimal places
+
+                // Display results
+                carbonOutput.textContent = `${emissionsKg} kg CO₂e`;
+                messageOutput.textContent = getRecommendation(totalEmissions, usedMethods);
+                resultsDiv.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
+
