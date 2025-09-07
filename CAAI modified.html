@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAAI: The Power of Quantified Climate Action</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            position: relative;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .stat-number {
+            font-weight: 900;
+            color: #00449E;
+            line-height: 1;
+        }
+        .flowchart-arrow {
+            content: '→';
+            font-size: 2rem;
+            color: #59AFFF;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12 md:mb-20 mt-12 md:mt-24">
+            <h1 class="text-4xl md:text-6xl font-black text-[#00449E] mb-4">
+                From Knowing to <span class="text-[#00A86B]">Doing</span>
+            </h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">Empowering students to act on climate change by making their personal impact visible, quantifiable, and actionable.</p>
+        </header>
+
+        <section id="challenge" class="mb-16 md:mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-[#FEECEB] rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-[#D32F2F] mb-4">The Consumption Connection</h2>
+                    <p class="text-gray-800 mb-6">Individual and household consumption is a primary driver of the climate crisis. Our daily choices in food, transport, and energy have a massive collective impact on global emissions.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="consumptionChart"></canvas>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-5xl md:text-7xl stat-number text-[#D32F2F]">66%</p>
+                    <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2">of global emissions are linked to household consumption.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="knowledge-gap" class="mb-16 md:mb-24 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#00449E] mb-4">The Gap Between Knowing and Acting</h2>
+            <p class="text-lg max-w-3xl mx-auto text-gray-600 mb-8">General awareness of climate change is high, but it doesn't always translate to action. The key is moving from abstract knowledge to concrete, personal responsibility.</p>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold bg-[#B2DFFF] text-[#00449E] rounded-full h-16 w-16 flex items-center justify-center shadow-md">1</span>
+                    <p class="ml-4 text-xl font-semibold">General Knowledge</p>
+                </div>
+                <div class="text-4xl font-thin text-[#59AFFF] hidden md:block">→</div>
+                 <div class="text-4xl font-thin text-[#59AFFF] md:hidden">↓</div>
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold bg-[#B2DFFF] text-[#00449E] rounded-full h-16 w-16 flex items-center justify-center shadow-md">2</span>
+                    <p class="ml-4 text-xl font-semibold">Good Intentions</p>
+                </div>
+                <div class="text-4xl font-thin text-red-400 mx-4">GAP ❓</div>
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold bg-[#00A86B] text-white rounded-full h-16 w-16 flex items-center justify-center shadow-lg">3</span>
+                    <p class="ml-4 text-xl font-semibold">Sustained Action</p>
+                </div>
+            </div>
+            <p class="mt-6 text-gray-500 max-w-2xl mx-auto">Research shows intentions only explain about 30% of actual behavior. To bridge this gap, we need to make climate impact personal.</p>
+        </section>
+
+        <section id="quantification" class="mb-16 md:mb-24 bg-[#00A86B] text-white rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+             <h2 class="text-3xl md:text-4xl font-bold mb-4">The Power of Quantification</h2>
+             <p class="text-lg md:text-xl max-w-3xl mx-auto text-[#E8F5E9] mb-8">When students can measure their carbon footprint, abstract concepts become concrete realities. This sense of personal agency is a powerful motivator for change.</p>
+             <div class="bg-white rounded-xl p-6">
+                <p class="text-6xl md:text-8xl stat-number text-[#00A86B]">2.86</p>
+                <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2">Tons of CO₂</p>
+                <p class="text-md text-gray-500 mt-4">Average annual reduction per graduate of an intensive university climate course, driven by informed behavioral changes.</p>
+             </div>
+        </section>
+
+        <section id="high-impact" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#00449E] mb-4 text-center">Focusing on High-Impact Actions</h2>
+            <p class="text-lg max-w-3xl mx-auto text-gray-600 mb-8 text-center">Not all green actions are created equal. Quantifying impact helps prioritize changes that make the biggest difference. Here are some of the most effective solutions.</p>
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <div class="chart-container h-96 md:h-[500px] max-h-[60vh]">
+                    <canvas id="impactActionsChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section id="ai-translator" class="mb-16 md:mb-24 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#00449E] mb-4">AI as an "Impact Translator"</h2>
+            <p class="text-lg max-w-3xl mx-auto text-gray-600 mb-8">Artificial Intelligence is the key to unlocking personalized climate action. It translates complex global data into simple, actionable insights for every student.</p>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center p-6 bg-white rounded-2xl shadow-lg">
+                <div class="flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">💾</span>
+                    <h3 class="font-bold text-lg">Vast Climate Data</h3>
+                    <p class="text-sm text-gray-500">Emissions, weather, consumption data</p>
+                </div>
+                <div class="text-4xl font-thin text-[#59AFFF] transform rotate-90 md:rotate-0">→</div>
+                <div class="flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">🧠</span>
+                    <h3 class="font-bold text-lg">AI Analysis & ML Models</h3>
+                    <p class="text-sm text-gray-500">Pattern recognition, prediction</p>
+                </div>
+                <div class="text-4xl font-thin text-[#59AFFF] transform rotate-90 md:rotate-0">→</div>
+                <div class="flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">💡</span>
+                    <h3 class="font-bold text-lg">Personalized Footprint</h3>
+                    <p class="text-sm text-gray-500">Quantified impact of daily actions</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="outcomes" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#00449E] mb-8 text-center">The Proof: Measurable Outcomes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#00449E] mb-4">Shift in Student Attitudes</h3>
+                    <p class="text-gray-600 mb-6">After a targeted climate education unit, students' concern about global warming increased dramatically, showing that knowledge builds personal connection.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="attitudeShiftChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-[#00449E] mb-4">Creating a Ripple Effect</h3>
+                    <p class="text-gray-600 mb-6">&nbsp;</p>
+                    <div class="text-center">
+                        <p class="text-6xl stat-number text-[#00A86B]">43%</p>
+                        <p class="text-xl font-semibold text-gray-700 mt-2">of students began discussing climate change with family and friends.</p>
+                        <p class="text-md text-gray-500 mt-4">Education empowers students to become climate advocates in their own communities, amplifying the program's impact.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center pt-8 border-t border-gray-200 mb-12 md:mb-24">
+            <h2 class="text-3xl font-bold text-[#00449E] mb-4">A Vision for Responsible Innovation</h2>
+            <p class="text-lg max-w-3xl mx-auto text-gray-600 mb-8">Leveraging AI for climate action requires a commitment to sustainability. CAAI is dedicated to "Green AI" practices to ensure our solutions are part of the cure, not the problem.</p>
+            <div class="inline-block bg-[#00449E] text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                Climate Action AI (CAAI)
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const brilliantBlues = {
+            dark: '#00449E',
+            medium: '#0079D8',
+            light: '#59AFFF',
+            veryLight: '#B2DFFF',
+            white: '#FFFFFF',
+            text: '#212121'
+        };
+        const vibrantGreen = '#00A86B';
+        const dangerRed = '#D32F2F';
+
+        function wrapLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) {
+                return str;
+            }
+            const words = str.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + word).length > maxLen && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: '#212121',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 12 },
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e5e7eb'
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('consumptionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Household Consumption', 'Other Sources'],
+                datasets: [{
+                    data: [66, 34],
+                    backgroundColor: [dangerRed, '#FFCDD2'],
+                    borderColor: brilliantBlues.white,
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: brilliantBlues.text,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+
+        const impactLabels = [
+            'Reduced Food Waste', 
+            'Plant-Rich Diets', 
+            'Electric Vehicles', 
+            'Rooftop Solar', 
+            'Mass Transit', 
+            'Telepresence',
+            'Bicycle Infrastructure'
+        ];
+        const wrappedImpactLabels = impactLabels.map(label => wrapLabel(label));
+
+        new Chart(document.getElementById('impactActionsChart'), {
+            type: 'bar',
+            data: {
+                labels: wrappedImpactLabels,
+                datasets: [{
+                    label: 'Mitigation Potential (GtCO2-eq by 2050)',
+                    data: [93.7, 87.0, 52.4, 40.3, 26.3, 17.2, 11.4],
+                    backgroundColor: [
+                        vibrantGreen, 
+                        '#81C784', 
+                        '#A5D6A7', 
+                        '#C8E6C9',
+                        '#E8F5E9',
+                        '#F1F8E9',
+                        '#FAFAFA'
+                    ],
+                    borderRadius: 4,
+                    barThickness: 30,
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                         grid: {
+                            color: '#e5e7eb'
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Mitigation Potential (GtCO2-eq by 2050)',
+                            color: brilliantBlues.text
+                        }
+                    },
+                    y: {
+                         grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        new Chart(document.getElementById('attitudeShiftChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Before Unit', 'After Unit'],
+                datasets: [{
+                    label: '% of Students Worried About Global Warming',
+                    data: [27, 77],
+                    backgroundColor: ['#B2DFFF', brilliantBlues.dark],
+                    borderRadius: 4,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    tooltip: {
+                        ...defaultChartOptions.plugins.tooltip,
+                        callbacks: {
+                            label: function(context) {
+                                return `Worried: ${context.raw}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ...defaultChartOptions.scales.y,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        ...defaultChartOptions.scales.x,
+                         ticks: {
+                            ...defaultChartOptions.scales.x.ticks,
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
